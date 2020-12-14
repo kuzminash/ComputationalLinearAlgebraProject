@@ -22,6 +22,11 @@ data class Complex(val real: BigDecimal, val imaginary: BigDecimal) {
         return false
     }
 
+    fun inverse() : Complex {
+        val s = (real * real + imaginary * imaginary).setScale(Constants.Scale)
+        return Complex(real.divide(s).setScale(Constants.Scale), imaginary.divide(s).setScale(Constants.Scale))
+    }
+
     //override operator +
     operator fun plus(other: Complex): Complex {
         return Complex(real + other.real, imaginary + other.imaginary)
@@ -29,20 +34,19 @@ data class Complex(val real: BigDecimal, val imaginary: BigDecimal) {
 
     //override operator -
     operator fun minus(other: Complex): Complex {
-        return Complex(real - other.real, imaginary - other.imaginary)
+        return Complex((real - other.real).setScale(Constants.Scale),
+            (imaginary - other.imaginary).setScale(Constants.Scale))
     }
 
     //override operator *
     operator fun times(other: Complex): Complex {
         return Complex(
-            real * other.real - imaginary * other.imaginary,
-            real * other.imaginary + imaginary * other.real
-        )
+            (real * other.real - imaginary * other.imaginary).setScale(Constants.Scale),
+            (real * other.imaginary + imaginary * other.real).setScale(Constants.Scale))
     }
 
     operator fun div(other: Complex): Complex {
-        return (Complex((real * other.real + imaginary * other.imaginary) / (other.real * other.real + other.imaginary * other.imaginary),
-            (other.real * imaginary - real * other.imaginary) / (other.real * other.real + other.imaginary * other.imaginary)))
+        return this * other.inverse()
     }
 
     //override operator toString -> a+bi

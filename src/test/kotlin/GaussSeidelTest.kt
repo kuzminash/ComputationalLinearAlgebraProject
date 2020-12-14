@@ -31,13 +31,17 @@ class GaussSeidelTest {
         var find = Solution(0)
         do {
             val matrix = Matrix(2, 2)
+
             matrix.matrixArray[0][0] = Complex(Random.nextInt().toDouble(), 0.0)
             matrix.matrixArray[0][1] = Complex(Random.nextInt().toDouble(), 0.0)
             matrix.matrixArray[1][0] = Complex(Random.nextInt().toDouble(), 0.0)
             matrix.matrixArray[1][1] = Complex(Random.nextInt().toDouble(), 0.0)
+
             val b = Matrix(2, 1)
+
             b.matrixArray[0][0] = Complex(Random.nextInt().toDouble(), 0.0)
             b.matrixArray[1][0] = Complex(Random.nextInt().toDouble(), 0.0)
+
             find = solveGaussSeidel(matrix, b)
 
         } while(find.find == 0)

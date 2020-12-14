@@ -6,13 +6,13 @@ import Structures.Matrix
 
 fun easyGauss(L: Matrix, b: Matrix): Matrix {
     val x = Matrix(b.rows, b.cols)
-    x.matrixArray[0][0] = Complex(b.matrixArray[0][0].real / L.matrixArray[0][0].real, 0.0.toBigDecimal())
+    x.matrixArray[0][0] = b.matrixArray[0][0] / L.matrixArray[0][0]
     for (i in 1 until b.rows) {
-        var acc = 0.0.toBigDecimal()
+        var acc = Complex(0.0, 0.0)
         for (j in 0 until i) {
-            acc += (L.matrixArray[i][j].real * x.matrixArray[j][0].real)
+            acc += L.matrixArray[i][j] * x.matrixArray[j][0]
         }
-        x.matrixArray[i][0] = Complex((b.matrixArray[i][0].real - acc) / L.matrixArray[i][i].real, 0.0.toBigDecimal())
+        x.matrixArray[i][0] = (b.matrixArray[i][0] - acc) / L.matrixArray[i][i]
     }
     return x;
 }
@@ -33,7 +33,6 @@ fun solveGaussSeidel(matrix: Matrix, b: Matrix): Solution {
 
     if (isZero) return Solution(0)
 
-    var notFound = true
     var iteration = 0
 
     var vector = Matrix(b.rows, b.cols)
@@ -42,7 +41,7 @@ fun solveGaussSeidel(matrix: Matrix, b: Matrix): Solution {
             Complex(0.0, 0.0)
     }
 
-    while (notFound) {
+    while (true) {
 
         if ((matrix * vector - b).norm() < Constants.Epsilon.toBigDecimal()) return Solution(1, vector)
 
