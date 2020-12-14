@@ -28,11 +28,7 @@ class Matrix(val matrixArray: MutableList<MutableList<Complex>>) {
 
     fun isEqual(other: Matrix): Boolean {
         if (cols != other.cols || rows != other.rows) return false
-        for (i in 0 until rows) {
-            for (j in 0 until cols) {
-                if (matrixArray[i][j] != other.matrixArray[i][j]) return false
-            }
-        }
+        if ((this - other).norm() > Constants.Epsilon.toBigDecimal()) return false
         return true
     }
 

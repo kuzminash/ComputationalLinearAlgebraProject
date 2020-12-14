@@ -2,10 +2,11 @@ package `Iterative methods`
 
 import Structures.*
 import Constants
+import java.math.BigDecimal
 import kotlin.random.Random
 
 
-fun solveFixedPoint(matrix: Matrix, b: Matrix) : Solution {
+fun solveFixedPoint(matrix: Matrix, b: Matrix, epsilon: BigDecimal) : Solution {
 
     var vector = Matrix(b.rows, b.cols)
 
@@ -18,7 +19,7 @@ fun solveFixedPoint(matrix: Matrix, b: Matrix) : Solution {
     while (notFound) {
 
         val newVector = matrix * vector + b
-        if ((vector - newVector).norm() < Constants.Epsilon.toBigDecimal()) {
+        if ((vector - newVector).norm() < epsilon) {
             notFound = false
             break
         }

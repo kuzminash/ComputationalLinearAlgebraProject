@@ -2,6 +2,7 @@ package `Iterative methods`
 
 import Structures.Complex
 import Structures.Matrix
+import java.math.BigDecimal
 
 
 fun easyGauss(L: Matrix, b: Matrix): Matrix {
@@ -17,14 +18,14 @@ fun easyGauss(L: Matrix, b: Matrix): Matrix {
     return x;
 }
 
-fun solveGaussSeidel(matrix: Matrix, b: Matrix): Solution {
+fun solveGaussSeidel(matrix: Matrix, b: Matrix, epsiolon: BigDecimal): Solution {
 
     val L = Matrix(matrix.rows, matrix.cols)
     val U = Matrix(matrix.rows, matrix.cols)
     var isZero = false
 
     for (i in 0 until matrix.rows) {
-        if (matrix.matrixArray[i][i].isEqual(Complex(0.0, 0.0))) isZero = true
+        if (matrix.matrixArray[i][i].module() < Constants.Epsilon) isZero = true
         for (j in 0 until matrix.cols) {
             if (i < j) U.matrixArray[i][j] = matrix.matrixArray[i][j]
             else L.matrixArray[i][j] = matrix.matrixArray[i][j]
@@ -43,7 +44,7 @@ fun solveGaussSeidel(matrix: Matrix, b: Matrix): Solution {
 
     while (true) {
 
-        if ((matrix * vector - b).norm() < Constants.Epsilon.toBigDecimal()) return Solution(1, vector)
+        if ((matrix * vector - b).norm() < epsiolon) return Solution(1, vector)
 
         val newVector = easyGauss(L, (U * ((-1.0).toBigDecimal())) * vector + b)
         iteration += 1
@@ -54,5 +55,4 @@ fun solveGaussSeidel(matrix: Matrix, b: Matrix): Solution {
         }
         vector = newVector
     }
-    return Solution(0)
 }

@@ -2,6 +2,7 @@ package Structures
 
 import java.math.BigDecimal
 import Constants
+import kotlin.math.abs
 import kotlin.math.sqrt
 
 /*
@@ -17,10 +18,6 @@ data class Complex(val real: BigDecimal, val imaginary: BigDecimal) {
         imaginary_.toBigDecimal().setScale(Constants.Scale)
     )
 
-    fun isEqual(other: Complex): Boolean {
-        if (real == other.real && imaginary == other.imaginary) return true
-        return false
-    }
 
     fun inverse() : Complex {
         val s = (real * real + imaginary * imaginary).setScale(Constants.Scale)

@@ -7,7 +7,7 @@ class FixedPointTest() {
     fun help(matrixS: String, bS: String) {
         val matrix = readMatrixFromFile(matrixS)
         val b = readMatrixFromFile(bS)
-        val answer = solveFixedPoint(matrix, b)
+        val answer = solveFixedPoint(matrix, b, Constants.Epsilon.toBigDecimal())
         assert((answer.matrix - matrix * answer.matrix - b).norm() <= Constants.Scale.toBigDecimal())
     }
 
