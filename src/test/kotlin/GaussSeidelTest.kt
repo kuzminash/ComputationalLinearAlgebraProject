@@ -12,8 +12,8 @@ class GaussSeidelTest {
     fun help(matrixS: String, bS: String) {
         val matrix = readMatrixFromFile(matrixS)
         val b = readMatrixFromFile(bS)
-        val answer = solveGaussSeidel(matrix, b, Constants.Epsilon.toBigDecimal())
-        assert((matrix * answer.matrix - b).norm() <= Constants.Scale.toBigDecimal())
+        val answer = solveGaussSeidel(matrix, b, Constants.Epsilon)
+        assert((matrix * answer.matrix - b).norm() <= Constants.Scale)
     }
 
     @Test

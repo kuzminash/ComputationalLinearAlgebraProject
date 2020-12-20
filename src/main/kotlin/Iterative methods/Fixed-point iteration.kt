@@ -6,7 +6,7 @@ import java.math.BigDecimal
 import kotlin.random.Random
 
 
-fun solveFixedPoint(matrix: Matrix, b: Matrix, epsilon: BigDecimal) : Solution {
+fun solveFixedPoint(matrix: Matrix, b: Matrix, epsilon: Double) : Solution {
 
     var vector = Matrix(b.rows, b.cols)
 
@@ -27,7 +27,7 @@ fun solveFixedPoint(matrix: Matrix, b: Matrix, epsilon: BigDecimal) : Solution {
         iteration += 1
         if (iteration == 20 && !allIn) break
 
-        if (newVector.norm() < vector.norm() + 1.0.toBigDecimal()) iteration = 0
+        if (newVector.norm() < vector.norm() + 1.0) iteration = 0
         vector = newVector
     }
     return if (notFound) Solution(0)

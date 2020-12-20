@@ -18,7 +18,7 @@ fun easyGauss(L: Matrix, b: Matrix): Matrix {
     return x;
 }
 
-fun solveGaussSeidel(matrix: Matrix, b: Matrix, epsiolon: BigDecimal): Solution {
+fun solveGaussSeidel(matrix: Matrix, b: Matrix, epsiolon: Double): Solution {
 
     val L = Matrix(matrix.rows, matrix.cols)
     val U = Matrix(matrix.rows, matrix.cols)
@@ -50,7 +50,7 @@ fun solveGaussSeidel(matrix: Matrix, b: Matrix, epsiolon: BigDecimal): Solution 
         iteration += 1
         if (iteration == 20) return Solution(0)
 
-        if (newVector.norm() < vector.norm() + 1.0.toBigDecimal()) {
+        if (newVector.norm() < vector.norm() + 1.0) {
             iteration = 0
         }
         vector = newVector

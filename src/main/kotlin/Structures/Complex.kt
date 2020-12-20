@@ -2,6 +2,7 @@ package Structures
 
 import java.math.BigDecimal
 import Constants
+import java.math.RoundingMode
 import kotlin.math.abs
 import kotlin.math.sqrt
 
@@ -14,36 +15,49 @@ greater accuracy
 data class Complex(val real: BigDecimal, val imaginary: BigDecimal) {
 
     constructor(real_: Double, imaginary_: Double) : this(
-        real_.toBigDecimal().setScale(Constants.Scale),
-        imaginary_.toBigDecimal().setScale(Constants.Scale)
+        real_.toBigDecimal().setScale(Constants.Scale, RoundingMode.UP),
+        imaginary_.toBigDecimal().setScale(Constants.Scale, RoundingMode.UP)
     )
 
 
     fun inverse() : Complex {
-        val s = (real * real + imaginary * imaginary).setScale(Constants.Scale)
-        return Complex(real.divide(s).setScale(Constants.Scale), imaginary.divide(s).setScale(Constants.Scale))
+        val s = (real * real + imaginary * imaginary).setScale(Constants.Scale, RoundingMode.UP)
+        return Complex(real.divide(s,Constants.Preicion).setScale(Constants.Scale, RoundingMode.UP),
+            -imaginary.divide(s,Constants.Preicion).setScale(Constants.Scale, RoundingMode.UP))
     }
 
     //override operator +
     operator fun plus(other: Complex): Complex {
-        return Complex(real + other.real, imaginary + other.imaginary)
+        return Complex((real + other.real).setScale(Constants.Scale, RoundingMode.UP),
+            (imaginary + other.imaginary).setScale(Constants.Scale, RoundingMode.UP))
     }
 
     //override operator -
     operator fun minus(other: Complex): Complex {
-        return Complex((real - other.real).setScale(Constants.Scale),
-            (imaginary - other.imaginary).setScale(Constants.Scale))
+        return Complex((real - other.real).setScale(Constants.Scale, RoundingMode.UP),
+            (imaginary - other.imaginary).setScale(Constants.Scale, RoundingMode.UP))
     }
 
     //override operator *
     operator fun times(other: Complex): Complex {
         return Complex(
-            (real * other.real - imaginary * other.imaginary).setScale(Constants.Scale),
-            (real * other.imaginary + imaginary * other.real).setScale(Constants.Scale))
+            (real * other.real - imaginary * other.imaginary).setScale(Constants.Scale, RoundingMode.UP),
+            (real * other.imaginary + imaginary * other.real).setScale(Constants.Scale, RoundingMode.UP))
+    }
+
+    //override operator *
+    operator fun times(other: Double): Complex {
+        return Complex(
+            (real * other.toBigDecimal()).setScale(Constants.Scale, RoundingMode.UP),
+            (imaginary * other.toBigDecimal()).setScale(Constants.Scale, RoundingMode.UP))
     }
 
     operator fun div(other: Complex): Complex {
         return this * other.inverse()
+    }
+
+    operator fun unaryMinus(): Complex {
+        return Complex(-real, -imaginary)
     }
 
     //override operator toString -> a+bi
@@ -51,7 +65,10 @@ data class Complex(val real: BigDecimal, val imaginary: BigDecimal) {
         return "$real+$imaginary" + "i"
     }
 
+    fun conjugate() : Complex {
+        return Complex(real, -imaginary)
+    }
     fun module(): Double {
-        return sqrt((real * real + imaginary * imaginary).toDouble())
+        return (real * real + imaginary * imaginary).sqrt(Constants.Preicion).toDouble()
     }
 }
